@@ -5,6 +5,9 @@ export function getImages(imgType) {
         if (!response.ok) {
             throw new Error(response.status); 
         }
+        else if (imgType === ""){
+            return
+        }
         return response.json();
     })
     .catch(err => {
