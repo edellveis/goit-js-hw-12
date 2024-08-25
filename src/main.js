@@ -25,31 +25,26 @@ const refs = {
     loader: document.querySelector('.loader'),
 };
 
-
-refs.form.addEventListener('submit', (event) => {
-    event.preventDefault();
+refs.form.addEventListener('submit',async (event) => {
+    try {
+      event.preventDefault();
     const inputValue = refs.form.elements.user_select.value;
     refs.gallery.innerHTML = ''; 
     refs.loader.style.display = 'block';
-    getImages(inputValue)
-      .then(data => {
-        const imgCards = data.hits.map(createImageCard).join('');
-        if (data.hits.length === 0) {
-          iziToast.show({
-            title: 'Sorry, there are no images matching your search query. Please try again!',
-            color: 'red',
-            position: 'topRight',
-            progressBar: false,
-          });
-        } else {
-          refs.gallery.innerHTML = imgCards;
-          lightbox.refresh();
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      })
-      .finally(() => {
-        refs.loader.style.display = 'none';
-      });
-});
+      const  response =  await getImages(inputValue);
+      if (response.data.hits.length === 0) {
+            iziToast.show({
+              title: 'Sorry, there are no images matching your search query. Please try again!',
+              color: 'red',
+              position: 'topRight',
+              progressBar: false,
+            });
+          }
+            const imgCards = response.data.hits.map(createImageCard).join('');
+            refs.gallery.innerHTML = imgCards;
+            lightbox.refresh();      
+    } catch (err) {
+      console.log(err);
+    } finally{
+      refs.loader.style.display = 'none';
+    }})
