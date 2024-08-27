@@ -86,13 +86,7 @@ async function onLoadMore(event) {
     const response = await getImages(inputValue, currnetPage);
 
     if (response.data.hits.length === 0) {
-      refs.btnLoadMore.classList.add('is-hidden'); 
-      iziToast.show({
-        title: "We're sorry, but you've reached the end of search results.",
-        color: 'blue',
-        position: 'topRight',
-        progressBar: false,
-      });
+      refs.btnLoadMore.classList.add('is-hidden');
     } else {
       const imgCards = response.data.hits.map(createImageCard).join('');
       refs.gallery.insertAdjacentHTML('beforeend', imgCards);
