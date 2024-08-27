@@ -29,10 +29,10 @@ async function searchSubmit(event) {
   try {
     event.preventDefault();
     
-    // Получаем значение и убираем пробелы
+   
     inputValue = refs.form.elements.user_select.value.trim();
 
-    // Проверяем, не пустой ли запрос
+
     if (!inputValue) {
       iziToast.show({
         title: 'Please enter a valid search query!',
@@ -46,12 +46,12 @@ async function searchSubmit(event) {
     currnetPage = 1;
     refs.gallery.innerHTML = ''; 
     refs.loader.style.display = 'block';
-    refs.btnLoadMore.classList.add('is-hidden'); // Скрываем кнопку перед запросом
+    refs.btnLoadMore.classList.add('is-hidden'); 
 
     const response = await getImages(inputValue, currnetPage);
 
     if (response.data.hits.length === 0) {
-      // Скрываем кнопку, если массив пуст
+
       refs.btnLoadMore.classList.add('is-hidden');
       iziToast.show({
         title: 'Sorry, there are no images matching your search query. Please try again!',
@@ -64,7 +64,6 @@ async function searchSubmit(event) {
       refs.gallery.innerHTML = imgCards;
       lightbox.refresh();
 
-      // Показываем кнопку только если есть больше страниц для загрузки
       const totalPages = Math.ceil(response.data.totalHits / 20);
       if (currnetPage < totalPages) {
         refs.btnLoadMore.classList.remove('is-hidden');
